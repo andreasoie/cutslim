@@ -137,3 +137,4 @@ results
 checkpoints/*
 wandb
 wandb/*
+params/*
