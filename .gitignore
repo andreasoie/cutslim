@@ -135,3 +135,5 @@ venv
 generations
 results
 checkpoints/*
+wandb
+wandb/*
