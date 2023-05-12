@@ -1,6 +1,7 @@
 import os
 import random
 import shutil
+import time
 import warnings
 from collections import OrderedDict
 from copy import deepcopy
@@ -129,7 +130,9 @@ if __name__ == "__main__":
     params.lr = 0.0006
 
     # Tuning parameters
-    params.lr = 0.0003
+    params.lr = 0.0001
+    params.n_epochs = 600
+    params.n_epochs_decay = 600
 
     # Update opt
     opt.update(params)
@@ -144,12 +147,14 @@ if __name__ == "__main__":
     if opt.wandb:
         wandb.init(project="cyc", entity="andreasoie")
         # Add baseline + hyperparams
-        wandb.config.update(opt)
+        wandb.config.update(opt, allow_val_change=True)
         # Save configurations
         save_baseline = "params/baseline.json"
         save_params = "params/params.json"
+        os.makedirs("params", exist_ok=True)
         save_cfg(save_baseline, baseline)
         save_cfg(save_params, params)
+        time.sleep(2.5)
         wandb.save(save_baseline)
         wandb.save(save_params)
 
@@ -192,7 +197,6 @@ if __name__ == "__main__":
         model.update_learning_rate()
 
     # Evaluation
-
     with TemporaryDirectory() as tempdir:
         epochs = find_epochs(opt.checkpoints_dir + "/" + opt.name)
 

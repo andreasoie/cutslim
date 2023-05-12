@@ -137,5 +137,5 @@ results
 checkpoints/*
 wandb
 wandb/*
-params/*
 .vscode
+snapshots/*
